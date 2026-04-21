@@ -4,7 +4,6 @@ services:
     name: galileo-api
     env: node
     region: frankfurt
-    plan: free
     rootDir: back
     buildCommand: npm install
     startCommand: npm run server
@@ -18,7 +17,6 @@ services:
   - type: web
     name: galileo-frontend
     env: static
-    plan: free
     rootDir: front
     buildCommand: npm install && npm run build
     staticPublishPath: dist
