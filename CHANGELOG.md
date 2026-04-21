@@ -20,7 +20,7 @@ Version initiale du projet Galileo (stack MEPN : MongoDB, Express, Preact, Node)
   - la connexion à MongoDB via Mongoose au démarrage,
   - l'écoute HTTP sur le port `3001`,
   - un arrêt propre (`SIGINT` / `SIGTERM`) avec déconnexion de la base.
-- Validation centralisée des variables d'environnement (`api/config/env.ts`) avec sortie immédiate du processus si `MONGO_URI` ou les origines CORS sont manquantes.
+- Validation centralisée des variables d'environnement (`api/config/env.ts`) avec sortie immédiate du processus si `MONGODB_URI` ou les origines CORS sont manquantes.
 - Modèle et schéma Mongoose `Astronomy` (`api/schemas/astronomy.schema.ts`, `api/models/astronomy.model.ts`) :
   - interface TypeScript `AstronomyObject`,
   - identifiant `_id` de type `string` fourni par l'utilisateur,
@@ -52,7 +52,7 @@ Version initiale du projet Galileo (stack MEPN : MongoDB, Express, Preact, Node)
 
 #### Déploiement
 - `render.yaml` décrivant deux services Render :
-  - `galileo-api` : service web Node (région Frankfurt), variables `NODE_ENV` et `MONGO_URI` (cette dernière en `sync: false`).
+  - `galileo-api` : service web Node (région Frankfurt), variables `NODE_ENV` et `MONGODB_URI` (cette dernière en `sync: false`).
   - `galileo-frontend` : service statique publiant `dist` avec rewrite `/* → /index.html` et variable `SERVER_URL` pointant sur l'API déployée.
 
 [Unreleased]: #unreleased

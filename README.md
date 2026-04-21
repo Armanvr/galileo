@@ -95,7 +95,7 @@ Le projet lit ses variables via `--env-file=.env` côté serveur et via Vite cô
 
 | Variable          | Obligatoire | Description                                                                 |
 | ----------------- | ----------- | --------------------------------------------------------------------------- |
-| `MONGO_URI`       | Oui         | Chaîne de connexion MongoDB (inclure la base cible).                        |
+| `MONGODB_URI`       | Oui         | Chaîne de connexion MongoDB (inclure la base cible).                        |
 | `ALLOWED_ORIGINS` | Oui*        | Liste d'origines autorisées par CORS, séparées par des virgules.            |
 | `CLIENT_URL`      | Oui*        | Alternative à `ALLOWED_ORIGINS` si une seule origine suffit.                |
 
@@ -115,7 +115,7 @@ Le port d'écoute est fixé à **3001** dans `api/config/env.ts`.
 
 ```dotenv
 # Back-end
-MONGO_URI=mongodb://<user>:<password>@<host>:<port>/<database>
+MONGODB_URI=mongodb://<user>:<password>@<host>:<port>/<database>
 ALLOWED_ORIGINS=http://localhost:5173
 
 # Front-end (lu par Vite)
@@ -184,7 +184,7 @@ Collection MongoDB utilisée : `test`.
 
 Le fichier `render.yaml` décrit un déploiement sur [Render](https://render.com/) avec deux services :
 
-- **`galileo-api`** – service web Node (région Frankfurt). Les variables `NODE_ENV` et `MONGO_URI` doivent être configurées dans le dashboard Render (la seconde est marquée `sync: false` pour rester secrète).
+- **`galileo-api`** – service web Node (région Frankfurt). Les variables `NODE_ENV` et `MONGODB_URI` doivent être configurées dans le dashboard Render (la seconde est marquée `sync: false` pour rester secrète).
 - **`galileo-frontend`** – service statique. Il effectue `npm install && npm run build`, publie le dossier `dist`, et reçoit `SERVER_URL` pointant vers l'URL publique de l'API.
 
 Une règle de rewrite `/* → /index.html` est déclarée pour le front afin de supporter les routes côté client.

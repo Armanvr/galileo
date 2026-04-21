@@ -6,10 +6,10 @@
  * fast at startup rather than when a request hits the database.
  */
 
-const MONGO_URI = process.env.MONGO_URI
+const MONGODB_URI = process.env.MONGODB_URI
 
-if (!MONGO_URI) {
-	console.error('Missing MONGO_URI environment variable')
+if (!MONGODB_URI) {
+	console.error('Missing MONGODB_URI environment variable')
 	process.exit(1)
 }
 
@@ -24,7 +24,7 @@ if (ALLOWED_ORIGINS.length === 0) {
 }
 
 export const env = {
-	PORT: 3001,
-	MONGO_URI: MONGO_URI as string,
+	PORT: process.env.PORT || 3001,
+	MONGODB_URI: MONGODB_URI as string,
 	ALLOWED_ORIGINS,
 } as const
