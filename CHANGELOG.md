@@ -1,11 +1,40 @@
 # Changelog
 
+Toutes les modifications notables de ce projet sont documentées ici.
+
+Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) et ce projet suit (de manière souple) les principes du [Semantic Versioning](https://semver.org/lang/fr/).
+
 ## [Unreleased]
+
+### Modifié
+- `render.yaml` : `rootDir` passé de `back` / `front` à `./` pour chaque service, reflétant la structure monorepo réelle à la racine.
+- `render.yaml` : mise à jour de la valeur `SERVER_URL` du service `galileo-frontend` vers la nouvelle URL publique de l'API déployée.
+- `package.json` : bump de version vers `1.0.1` (à valider au prochain release).
 
 ### À venir
 - Tests unitaires et d'intégration pour l'API.
 - Pagination / filtrage sur `GET /api/astronomy`.
 - Endpoints d'écriture (POST / PUT / DELETE) sur la ressource astronomy.
+
+## [1.0.1] - 2026-04-21
+
+Itération de stabilisation : renommage de la variable d'environnement Mongo, ajustements des scripts npm pour distinguer dev/prod, réorganisation des dépendances et ajustements Render.
+
+### Modifié
+- **Variable d'environnement renommée** : `MONGO_URI` → `MONGODB_URI` dans `api/config/env.ts`, `api/db/mongoose.ts`, `render.yaml`, `README.md` et `CHANGELOG.md`. **Breaking change** côté déploiement : mettre à jour les `.env` locaux et la configuration Render.
+- **Scripts npm** (`package.json`) :
+  - Ajout de `dev:server` qui lance l'API via `tsx --env-file=.env api/index.ts` (ancien comportement du script `server`).
+  - `server` ne charge plus `.env` (`tsx api/index.ts`) afin d'être utilisable en production sur Render où les variables sont injectées par la plateforme.
+- **Dépendances** (`package.json`) :
+  - `tsx` déplacée de `devDependencies` vers `dependencies` (nécessaire pour le `startCommand: npm run server` de Render sur un build sans devDeps).
+  - `mongoose` déplacée de `devDependencies` vers `dependencies`.
+- **Configuration** (`api/config/env.ts`) : `PORT` est désormais lu depuis `process.env.PORT` (avec fallback `3001`), requis par l'environnement Render qui impose son propre port.
+- `render.yaml` :
+  - Suppression du `region: frankfurt` sur le service `galileo-frontend`.
+  - Retrait puis réintroduction de `plan: free` uniquement sur le service `galileo-api` (le frontend statique n'a plus de `plan` déclaré).
+
+### Documentation
+- `README.md` mis à jour pour refléter le nouveau nom `MONGODB_URI` dans le tableau des variables d'environnement et l'exemple `.env`.
 
 ## [1.0.0] - 2026-04-21
 
@@ -56,4 +85,5 @@ Version initiale du projet Galileo (stack MEPN : MongoDB, Express, Preact, Node)
   - `galileo-frontend` : service statique publiant `dist` avec rewrite `/* → /index.html` et variable `SERVER_URL` pointant sur l'API déployée.
 
 [Unreleased]: #unreleased
+[1.0.1]: #101---2026-04-21
 [1.0.0]: #100---2026-04-21

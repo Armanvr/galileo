@@ -5,7 +5,7 @@ services:
     env: node
     region: frankfurt
     plan: free
-    rootDir: back
+    rootDir: ./
     buildCommand: npm install
     startCommand: npm run server
     envVars:
@@ -18,12 +18,12 @@ services:
   - type: web
     name: galileo-frontend
     env: static
-    rootDir: front
+    rootDir: ./
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     envVars:
       - key: SERVER_URL
-        value: https://galileo-api.onrender.com
+        value: https://galileo-api-vz0u.onrender.com
     routes:
       - type: rewrite
         source: /*
