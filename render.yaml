@@ -18,7 +18,6 @@ services:
   - type: web
     name: galileo-frontend
     env: static
-    region: frankfurt
     plan: free
     rootDir: front
     buildCommand: npm install && npm run build
