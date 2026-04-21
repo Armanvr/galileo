@@ -1,0 +1,32 @@
+services:
+  # ─── BACK-END (production) ─────────────────────────────
+  - type: web
+    name: galileo-api
+    env: node
+    region: frankfurt
+    plan: free
+    rootDir: back
+    buildCommand: npm install
+    startCommand: npm run server
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false
+
+  # ─── FRONT-END (production) ────────────────────────────
+  - type: web
+    name: galileo-frontend
+    env: static
+    region: frankfurt
+    plan: free
+    rootDir: front
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: SERVER_URL
+        value: https://galileo-api.onrender.com
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
