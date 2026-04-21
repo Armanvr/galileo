@@ -6,7 +6,8 @@
 	"description": "Galileo is a test project for MERN/MEPN stack",
 	"scripts": {
 		"dev": "vite",
-		"server": "tsx --env-file=.env api/index.ts",
+		"dev:server": "tsx --env-file=.env api/index.ts",
+		"server": "tsx api/index.ts",
 		"dev:all": "concurrently \"npm:dev\" \"npm:server\"",
 		"build": "tsc -b && vite build",
 		"preview": "vite preview",
