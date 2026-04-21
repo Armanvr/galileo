@@ -4,6 +4,7 @@ services:
     name: galileo-api
     env: node
     region: frankfurt
+    plan: free
     rootDir: back
     buildCommand: npm install
     startCommand: npm run server
