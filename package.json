@@ -19,6 +19,7 @@
 		"cors": "^2.8.6",
 		"express": "^5.1.0",
 		"mongoose": "^9.5.0",
+		"nodemailer": "^8.0.7",
 		"preact": "^10.27.2",
 		"tsx": "^4.19.4"
 	},
@@ -33,7 +34,6 @@
 		"@types/nodemailer": "^8.0.0",
 		"concurrently": "^9.1.2",
 		"mongodb": "^7.2.0",
-		"nodemailer": "^8.0.7",
 		"tailwindcss": "^4.1.17",
 		"typescript": "^6.0.3",
 		"vite": "^8.0.0"
