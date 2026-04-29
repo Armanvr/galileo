@@ -2,6 +2,7 @@ import cors, { type CorsOptions } from 'cors'
 import express from 'express'
 import { env } from './config/env'
 import { astronomyRouter } from './routes/astronomy.routes'
+import { authRouter } from './routes/auth.routes'
 import { healthRouter } from './routes/health.routes'
 
 /**
@@ -37,3 +38,4 @@ app.use(express.json())
 
 app.use('/api', healthRouter)
 app.use('/api', astronomyRouter)
+app.use('/api', authRouter)

@@ -23,8 +23,32 @@ if (ALLOWED_ORIGINS.length === 0) {
 	process.exit(1)
 }
 
+const CLIENT_URL = process.env.CLIENT_URL
+
+if (!CLIENT_URL) {
+	console.error('Missing CLIENT_URL environment variable')
+	process.exit(1)
+}
+
+const GMAIL_USER = process.env.GMAIL_USER
+
+if (!GMAIL_USER) {
+	console.error('Missing GMAIL_USER environment variable')
+	process.exit(1)
+}
+
+const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD
+
+if (!GMAIL_APP_PASSWORD) {
+	console.error('Missing GMAIL_APP_PASSWORD environment variable')
+	process.exit(1)
+}
+
 export const env = {
 	PORT: process.env.PORT || 3001,
 	MONGODB_URI: MONGODB_URI as string,
 	ALLOWED_ORIGINS,
+	CLIENT_URL: CLIENT_URL as string,
+	GMAIL_USER: GMAIL_USER as string,
+	GMAIL_APP_PASSWORD: GMAIL_APP_PASSWORD as string,
 } as const

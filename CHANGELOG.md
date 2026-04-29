@@ -6,12 +6,32 @@ Le format s'inspire de [Keep a Changelog](https://keepachangelog.com/fr/1.1.0/) 
 
 ## [Unreleased]
 
+### Ajouté
+
+#### Back-end (`api/`)
+- **Système d'authentification par email** :
+  - Schéma et modèle Mongoose `User` (`api/schemas/user.schema.ts`, `api/models/user.model.ts`) : champs `email`, `passwordHash`, `verified`, `verificationToken` / `verificationTokenExpiresAt` ; index unique sur `email`; `strict: "throw"`, `timestamps: true`.
+  - Contrôleur `api/controllers/auth.controller.ts` exposant deux actions :
+    - `register` — valide l'email et le mot de passe (≥ 8 caractères), hache le mot de passe avec `bcryptjs`, génère un token de vérification (`crypto.randomBytes`), enregistre l'utilisateur via un `findOneAndUpdate` avec `upsert`, envoie l'email de confirmation et annule la création si l'envoi échoue (rollback).
+    - `verifyEmail` — recherche le token dans la base, vérifie l'expiration (TTL 24 h) et marque le compte comme vérifié.
+  - Routes `api/routes/auth.routes.ts` : `POST /api/auth/register` et `GET /api/auth/verify`.
+- **Service mail** (`api/services/mail.service.ts`) : migration de Mailtrap vers **Gmail / Nodemailer** (`nodemailer` + `GMAIL_USER` / `GMAIL_APP_PASSWORD`).
+- **Variables d'environnement** (`api/config/env.ts`) : ajout de la validation au démarrage pour `GMAIL_USER` et `GMAIL_APP_PASSWORD`.
+
+#### Front-end (`src/`)
+- **Router client léger** (`src/lib/router.ts`) : hook `useRoute` (path + search) et fonction `navigate` basés sur `History API` et `popstate`.
+- **Page d'inscription** (`src/pages/register.tsx`) : formulaire email / mot de passe, gestion des états `idle / submitting / success / error`, retour d'erreurs serveur inline.
+- **Page de vérification** (`src/pages/verify.tsx`) : lit le token depuis l'URL, appelle `GET /api/auth/verify`, affiche le résultat et propose un retour à l'accueil ou une ré-inscription.
+- **Page d'accueil** (`src/pages/home.tsx`) : extraction de la logique de liste astronomique de `App` vers un composant dédié `HomePage`.
+- `src/app.tsx` mis à jour pour router entre `HomePage`, `RegisterPage` et `VerifyPage` selon le chemin courant.
+
 ### Modifié
 - `render.yaml` : `rootDir` passé de `back` / `front` à `./` pour chaque service, reflétant la structure monorepo réelle à la racine.
 - `render.yaml` : mise à jour de la valeur `SERVER_URL` du service `galileo-frontend` vers la nouvelle URL publique de l'API déployée.
 - `package.json` : bump de version vers `1.0.1` (à valider au prochain release).
 
 ### À venir
+- Authentification par session / JWT après la vérification d'email.
 - Tests unitaires et d'intégration pour l'API.
 - Pagination / filtrage sur `GET /api/astronomy`.
 - Endpoints d'écriture (POST / PUT / DELETE) sur la ressource astronomy.
