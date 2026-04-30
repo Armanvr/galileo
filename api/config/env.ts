@@ -30,17 +30,10 @@ if (!CLIENT_URL) {
 	process.exit(1)
 }
 
-const GMAIL_USER = process.env.GMAIL_USER
+const RESEND_API_KEY = process.env.RESEND_API_KEY
 
-if (!GMAIL_USER) {
-	console.error('Missing GMAIL_USER environment variable')
-	process.exit(1)
-}
-
-const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD
-
-if (!GMAIL_APP_PASSWORD) {
-	console.error('Missing GMAIL_APP_PASSWORD environment variable')
+if (!RESEND_API_KEY) {
+	console.error('Missing RESEND_API_KEY environment variable')
 	process.exit(1)
 }
 
@@ -49,6 +42,5 @@ export const env = {
 	MONGODB_URI: MONGODB_URI as string,
 	ALLOWED_ORIGINS,
 	CLIENT_URL: CLIENT_URL as string,
-	GMAIL_USER: GMAIL_USER as string,
-	GMAIL_APP_PASSWORD: GMAIL_APP_PASSWORD as string,
+	RESEND_API_KEY: RESEND_API_KEY as string,
 } as const

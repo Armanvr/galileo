@@ -1,13 +1,7 @@
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 import { env } from '../config/env'
 
-const transporter = nodemailer.createTransport({
-	service: 'gmail',
-	auth: {
-		user: process.env.GMAIL_USER,
-		pass: process.env.GMAIL_APP_PASSWORD,
-	},
-})
+const resend = new Resend(env.RESEND_API_KEY)
 
 /**
  * Send an account verification email containing a one-time confirmation link.
@@ -51,13 +45,17 @@ export async function sendVerificationEmail(to: string, token: string): Promise<
 		</div>
 	`.trim()
 
-	const info = await transporter.sendMail({
-		from: `"Galileo" <${process.env.GMAIL_USER}>`,
+	const { data, error } = await resend.emails.send({
+		from: 'Galileo <noreply@emberfall.fr>',
 		to,
 		subject: 'Confirmez votre inscription sur Galileo',
 		text,
 		html,
 	})
 
-	console.log('[Mailer] Email envoyé :', info.messageId)
+	if (error) {
+		throw new Error(`[Mailer] Resend error: ${error.message}`)
+	}
+
+	console.log('[Mailer] Email envoyé :', data?.id)
 }
